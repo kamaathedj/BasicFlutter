@@ -18,6 +18,7 @@ class MainApp extends StatelessWidget {
           child: ListView.builder(itemBuilder: (context, index) {
             return ListTile(
               title: Text('title'),
+              subtitle: Text('This is a subtitle'),
             );
           }),
         ),
