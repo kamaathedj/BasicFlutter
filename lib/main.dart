@@ -2,12 +2,21 @@ import 'package:demo_app/MyList.dart';
 import 'package:flutter/material.dart';
 
 void main() {
+  // MultiProvider(providers: [
+  //   Provider<Change>(create: (_) =>),
+  // ]);
   runApp(const MainApp());
 }
 
-class MainApp extends StatelessWidget {
+class MainApp extends StatefulWidget {
   const MainApp({super.key});
-  static List<String> items = [
+
+  @override
+  State<MainApp> createState() => _MainAppState();
+}
+
+class _MainAppState extends State<MainApp> {
+  final List<String> items = [
     'oranges',
     'ovacandos',
     'lemons',
@@ -18,8 +27,18 @@ class MainApp extends StatelessWidget {
     'passion fruits',
     'pomegranate'
   ];
+
+  final ScrollController controller = ScrollController();
+
   void add() {
-    items.add('mapera');
+    setState(() {
+      items.add('mapera');
+    });
+
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        controller.animateTo(controller.position.maxScrollExtent,
+            duration:const Duration(microseconds: 500), curve: Curves.easeOut);
+      });
   }
 
   @override
@@ -29,9 +48,9 @@ class MainApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(title: Text('my app')),
-        body: Center(child: MList(items)),
+        body: Center(child: MList(items, controller)),
         floatingActionButton: FloatingActionButton(
-          onPressed: null,
+          onPressed: () => {add()},
           child: Text('+'),
         ),
       ),

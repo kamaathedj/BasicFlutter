@@ -1,29 +1,22 @@
 import 'package:flutter/material.dart';
 
 class MList extends StatefulWidget {
-  const MList(List<String> items, {super.key});
-
+  const MList(this.items, this.controller,{super.key});
+  final List<String> items;
+   final ScrollController controller ;
   @override
   State<MList> createState() => _MListState();
 }
 
 class _MListState extends State<MList> {
-  late ScrollController controller;
-  List<String> items = items;
-  void animate() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      controller.animateTo(controller.position.maxScrollExtent,
-          duration: Duration(microseconds: 500), curve: Curves.bounceIn);
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-        controller: ScrollController(),
-        itemCount: items.length,
+        controller: widget.controller,
+        itemCount: widget.items.length,
         itemBuilder: (context, index) {
-          final item = items[index];
+          final item = widget.items[index];
           return ListTile(
             onTap: () => SnackBar(
               key: Key('nana12'),
