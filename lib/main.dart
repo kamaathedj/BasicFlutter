@@ -1,11 +1,15 @@
 import 'package:demo_app/MyList.dart';
+import 'package:demo_app/provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  // MultiProvider(providers: [
-  //   Provider<Change>(create: (_) =>),
-  // ]);
-  runApp(const MainApp());
+   runApp(
+    ChangeNotifierProvider(
+      create: (context) => Change(),
+      child: const MainApp(),
+    ),
+  );
 }
 
 class MainApp extends StatefulWidget {
@@ -16,39 +20,41 @@ class MainApp extends StatefulWidget {
 }
 
 class _MainAppState extends State<MainApp> {
-  final List<String> items = [
-    'oranges',
-    'ovacandos',
-    'lemons',
-    'mangoes',
-    'Apples',
-    'Watermelon',
-    'banana',
-    'passion fruits',
-    'pomegranate'
-  ];
+  
+  // final List<String> items = [
+  //   'oranges',
+  //   'ovacandos',
+  //   'lemons',
+  //   'mangoes',
+  //   'Apples',
+  //   'Watermelon',
+  //   'banana',
+  //   'passion fruits',
+  //   'pomegranate'
+  // ];
 
   final ScrollController controller = ScrollController();
 
   void add() {
     setState(() {
-      items.add('mapera');
+      // items.add('mapera');
     });
 
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        controller.animateTo(controller.position.maxScrollExtent,
-            duration:const Duration(microseconds: 500), curve: Curves.easeOut);
-      });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      controller.animateTo(controller.position.maxScrollExtent,
+          duration: const Duration(microseconds: 500), curve: Curves.easeOut);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    final data = Provider.of<Change>(context, listen: false);
     return MaterialApp(
       darkTheme: ThemeData.dark(),
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(title: Text('my app')),
-        body: Center(child: MList(items, controller)),
+        body: Center(child: MList(data.items, controller)),
         floatingActionButton: FloatingActionButton(
           onPressed: () => {add()},
           child: Text('+'),
