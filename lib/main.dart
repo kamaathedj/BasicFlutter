@@ -38,7 +38,9 @@ class _MainAppState extends State<MainApp> {
   void add() {
     setState(() {
       // items.add('mapera');
+     
     });
+     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('added mapera')));
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       controller.animateTo(controller.position.maxScrollExtent,
@@ -56,7 +58,7 @@ class _MainAppState extends State<MainApp> {
         appBar: AppBar(title: Text('my app')),
         body: Center(child: MList(data.items, controller)),
         floatingActionButton: FloatingActionButton(
-          onPressed: () => {add()},
+          onPressed: () => {data.removeAll()},
           child: Text('+'),
         ),
       ),
